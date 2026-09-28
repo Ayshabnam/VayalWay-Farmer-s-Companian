@@ -156,15 +156,15 @@ export const ComparePricesView: React.FC = () => {
             {/* Voice button for crop - 44px min target */}
             <button
               onClick={() => startVoiceInput('crop')}
-              className={`min-h-[44px] flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-warm-sm ${
+              className={`min-h-[44px] flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-warm-sm shrink-0 ${
                 isListening && voiceField === 'crop'
                   ? 'bg-rose-600 text-white animate-pulse'
                   : 'bg-[#FBF3E7] text-[#C1622D] hover:bg-[#F4E8D6] border border-[#C1622D]/30'
               }`}
               title="Speak crop name"
             >
-              <Mic className="w-4 h-4" />
-              <span className="hidden sm:inline">Speak Crop</span>
+              <Mic className="w-4 h-4 shrink-0" />
+              <span className="whitespace-nowrap">Speak Crop</span>
             </button>
           </div>
 
@@ -239,15 +239,15 @@ export const ComparePricesView: React.FC = () => {
             {/* Voice button for quantity - 44px min target */}
             <button
               onClick={() => startVoiceInput('quantity')}
-              className={`min-h-[44px] flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-warm-sm ${
+              className={`min-h-[44px] flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-warm-sm shrink-0 ${
                 isListening && voiceField === 'quantity'
                   ? 'bg-rose-600 text-white animate-pulse'
                   : 'bg-[#FBF3E7] text-[#C1622D] hover:bg-[#F4E8D6] border border-[#C1622D]/30'
               }`}
               title="Speak quantity"
             >
-              <Mic className="w-4 h-4" />
-              <span className="hidden sm:inline">Speak Quantity</span>
+              <Mic className="w-4 h-4 shrink-0" />
+              <span className="whitespace-nowrap">Speak Quantity</span>
             </button>
           </div>
 
@@ -312,7 +312,7 @@ export const ComparePricesView: React.FC = () => {
 
         {/* STEP 3: Location */}
         <div>
-          <div className="flex items-center justify-between mb-3.5">
+          <div className="flex items-center justify-between mb-3.5 flex-wrap gap-2">
             <div className="flex items-center gap-2.5">
               <span className="w-7 h-7 rounded-full bg-[#C1622D] text-white text-xs font-black flex items-center justify-center shadow-xs">
                 3
@@ -323,48 +323,124 @@ export const ComparePricesView: React.FC = () => {
               </div>
             </div>
 
-            {/* GPS Auto-detect button - 44px min touch target */}
-            <button
-              onClick={detectLocation}
-              disabled={isLocating}
-              className="min-h-[44px] flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold bg-[#EDF5EB] text-[#2D4F26] hover:bg-[#DFEDE0] border border-[#4A7C3F]/30 transition active:scale-95 disabled:opacity-50 shadow-xs"
-            >
-              <MapPin className={`w-4 h-4 text-[#4A7C3F] ${isLocating ? 'animate-bounce' : ''}`} />
-              <span>{isLocating ? t.detectingLocation : t.autoDetectLocation}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              {/* Voice button for location - 44px min target */}
+              <button
+                onClick={() => startVoiceInput('location')}
+                className={`min-h-[44px] flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-2xl text-xs font-bold transition shadow-warm-sm shrink-0 ${
+                  isListening && voiceField === 'location'
+                    ? 'bg-rose-600 text-white animate-pulse'
+                    : 'bg-[#FBF3E7] text-[#C1622D] hover:bg-[#F4E8D6] border border-[#C1622D]/30'
+                }`}
+                title="Speak your village or mandi location"
+              >
+                <Mic className="w-4 h-4 shrink-0" />
+                <span className="whitespace-nowrap">{isListening && voiceField === 'location' ? t.listening : 'Speak Location'}</span>
+              </button>
+
+              {/* GPS Auto-detect button - 44px min touch target */}
+              <button
+                onClick={detectLocation}
+                disabled={isLocating}
+                className="min-h-[44px] flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold bg-[#EDF5EB] text-[#2D4F26] hover:bg-[#DFEDE0] border border-[#4A7C3F]/30 transition active:scale-95 disabled:opacity-50 shadow-xs"
+              >
+                <MapPin className={`w-4 h-4 text-[#4A7C3F] ${isLocating ? 'animate-bounce' : ''}`} />
+                <span>{isLocating ? t.detectingLocation : t.autoDetectLocation}</span>
+              </button>
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
-                <MapPin className="w-4 h-4 text-[#C1622D]" />
+          <div className="space-y-3">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                  <MapPin className="w-4 h-4 text-[#C1622D]" />
+                </div>
+                <input
+                  type="text"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Type your village, taluka, or district..."
+                  className="w-full min-h-[44px] pl-10 pr-4 py-2.5 rounded-2xl border border-amber-200/80 bg-[#FFFDF9] text-sm font-semibold text-[#2E2118] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#C1622D]"
+                />
               </div>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder={t.currentLocation}
-                className="w-full min-h-[44px] pl-10 pr-4 py-2.5 rounded-2xl border border-amber-200/80 bg-[#FFFDF9] text-sm font-semibold text-[#2E2118] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#C1622D]"
-              />
+
+              {/* Common Locations Dropdown */}
+              <div className="sm:w-72">
+                <select
+                  value={commonLocations.includes(location) ? location : ''}
+                  onChange={(e) => {
+                    if (e.target.value) setLocation(e.target.value);
+                  }}
+                  className="w-full min-h-[44px] py-2.5 px-3 rounded-2xl border border-amber-200/80 bg-[#FFFDF9] text-xs font-bold text-[#2E2118] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#C1622D]"
+                >
+                  <option value="">-- {t.orSelectDistrict} --</option>
+                  {commonLocations.map((loc) => (
+                    <option key={loc} value={loc}>
+                      {loc}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
-            {/* Common Locations Dropdown */}
-            <div className="sm:w-64">
-              <select
-                value={commonLocations.includes(location) ? location : ''}
-                onChange={(e) => {
-                  if (e.target.value) setLocation(e.target.value);
-                }}
-                className="w-full min-h-[44px] py-2.5 px-3 rounded-2xl border border-amber-200/80 bg-[#FFFDF9] text-xs font-bold text-[#2E2118] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#C1622D]"
-              >
-                <option value="">{t.orSelectDistrict}</option>
-                {commonLocations.map((loc) => (
-                  <option key={loc} value={loc}>
-                    {loc}
-                  </option>
-                ))}
-              </select>
+            {/* Quick 1-tap district chips */}
+            <div className="pt-1">
+              <div className="text-[11px] font-bold text-stone-500 mb-1.5 flex items-center justify-between">
+                <span>Or select a district:</span>
+                {location && (
+                  <button
+                    onClick={() => setLocation('')}
+                    className="text-[10px] text-[#C1622D] hover:underline font-bold"
+                  >
+                    Clear selection
+                  </button>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                {commonLocations.map((loc) => {
+                  const shortName = loc.split(',')[0];
+                  const isSelected = location === loc;
+                  return (
+                    <button
+                      key={loc}
+                      onClick={() => setLocation(loc)}
+                      className={`min-h-[36px] px-3 py-1.5 rounded-xl text-xs font-bold transition-all active:scale-95 ${
+                        isSelected
+                          ? 'bg-[#C1622D] text-white shadow-warm-xs'
+                          : 'bg-[#FBF3E7] hover:bg-[#F4E8D6] text-[#2E2118] border border-amber-200/60'
+                      }`}
+                    >
+                      📍 {shortName}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
+
+            {/* Status callout */}
+            {!location ? (
+              <div className="p-3 bg-[#FFF8EE] border border-[#F5A623]/60 rounded-2xl flex items-center gap-2.5 text-xs text-[#2E2118] font-medium shadow-xs">
+                <span className="text-lg shrink-0">📍</span>
+                <div>
+                  <span className="font-black text-[#C1622D] block">No Location Selected</span>
+                  <span>Select your district from the dropdown/chips, type your village, or tap <strong>"Speak Location"</strong> to calculate exact transport costs.</span>
+                </div>
+              </div>
+            ) : (
+              <div className="p-2.5 bg-[#EDF5EB] border border-[#4A7C3F]/30 rounded-2xl flex items-center justify-between text-xs text-[#2D4F26] font-bold">
+                <div className="flex items-center gap-2 truncate">
+                  <span className="text-base">✓</span>
+                  <span className="truncate">Selected Location: {location}</span>
+                </div>
+                <button
+                  onClick={() => setLocation('')}
+                  className="text-[11px] text-stone-500 hover:text-stone-800 underline ml-2 shrink-0"
+                >
+                  Change
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -381,20 +457,21 @@ export const ComparePricesView: React.FC = () => {
             </div>
             <p className="text-sm font-black text-[#2E2118]">
               {quantityKg} kg ({(quantityKg / 100).toFixed(1)} {t.quintalsHint}) of{' '}
-              {selectedCrop.nameKey in t ? (t as any)[selectedCrop.nameKey] : selectedCrop.id} from {location.split(',')[0]}
+              {selectedCrop.nameKey in t ? (t as any)[selectedCrop.nameKey] : selectedCrop.id}{' '}
+              {location ? `from ${location.split(',')[0]}` : '(Select location above)'}
             </p>
           </div>
         </div>
 
-        {/* Sorting Buttons - min 44px */}
-        <div className="flex items-center gap-1.5 bg-[#FBF3E7] p-1.5 rounded-2xl border border-amber-200/60 self-stretch sm:self-auto justify-between">
-          <span className="text-[11px] font-bold text-stone-500 px-2 flex items-center gap-1">
+        {/* Sorting Buttons - min 44px touch targets */}
+        <div className="flex items-center gap-1.5 bg-[#FBF3E7] p-1.5 rounded-2xl border border-amber-200/60 self-stretch sm:self-auto overflow-x-auto scrollbar-none">
+          <span className="text-[11px] font-bold text-stone-500 px-2 flex items-center gap-1 shrink-0">
             <ArrowUpDown className="w-3.5 h-3.5 text-[#C1622D]" />
-            <span className="hidden sm:inline">{t.sortBy}:</span>
+            <span className="whitespace-nowrap">{t.sortBy}:</span>
           </span>
           <button
             onClick={() => setSortMode('net_return')}
-            className={`min-h-[40px] px-3 py-1.5 rounded-xl text-xs font-black transition ${
+            className={`min-h-[40px] px-3 py-1.5 rounded-xl text-xs font-black transition whitespace-nowrap shrink-0 ${
               sortMode === 'net_return'
                 ? 'bg-[#C1622D] text-white shadow-warm-sm'
                 : 'text-[#2E2118] hover:text-[#C1622D]'
@@ -404,7 +481,7 @@ export const ComparePricesView: React.FC = () => {
           </button>
           <button
             onClick={() => setSortMode('price')}
-            className={`min-h-[40px] px-3 py-1.5 rounded-xl text-xs font-black transition ${
+            className={`min-h-[40px] px-3 py-1.5 rounded-xl text-xs font-black transition whitespace-nowrap shrink-0 ${
               sortMode === 'price'
                 ? 'bg-[#C1622D] text-white shadow-warm-sm'
                 : 'text-[#2E2118] hover:text-[#C1622D]'
@@ -414,7 +491,7 @@ export const ComparePricesView: React.FC = () => {
           </button>
           <button
             onClick={() => setSortMode('distance')}
-            className={`min-h-[40px] px-3 py-1.5 rounded-xl text-xs font-black transition ${
+            className={`min-h-[40px] px-3 py-1.5 rounded-xl text-xs font-black transition whitespace-nowrap shrink-0 ${
               sortMode === 'distance'
                 ? 'bg-[#C1622D] text-white shadow-warm-sm'
                 : 'text-[#2E2118] hover:text-[#C1622D]'
@@ -529,34 +606,34 @@ export const ComparePricesView: React.FC = () => {
                   </div>
 
                   {/* Middle Column: Offered Price & Costs */}
-                  <div className="lg:col-span-4 grid grid-cols-3 gap-2 bg-[#FFFDF9] p-3 rounded-2xl border border-amber-200/70 text-center shadow-warm-xs">
-                    <div>
-                      <div className="text-[10px] text-stone-500 font-bold uppercase">{t.offeredPrice}</div>
-                      <div className="font-black text-base text-[#2E2118] mt-0.5">
+                  <div className="lg:col-span-4 grid grid-cols-3 gap-1.5 sm:gap-2 bg-[#FFFDF9] p-2.5 sm:p-3 rounded-2xl border border-amber-200/70 text-center shadow-warm-xs">
+                    <div className="min-w-0">
+                      <div className="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase truncate">{t.offeredPrice}</div>
+                      <div className="font-black text-sm sm:text-base text-[#2E2118] mt-0.5 truncate">
                         ₹{result.market.offeredPricePerKg}
-                        <span className="text-[10px] text-stone-500 font-medium">/kg</span>
+                        <span className="text-[9px] sm:text-[10px] text-stone-500 font-medium">/kg</span>
                       </div>
-                      <div className="text-[10px] text-stone-500 font-medium">
+                      <div className="text-[9px] sm:text-[10px] text-stone-500 font-medium truncate">
                         ₹{result.grossRevenue.toLocaleString('en-IN')} gross
                       </div>
                     </div>
 
-                    <div>
-                      <div className="text-[10px] text-stone-500 font-bold uppercase">{t.transportCost}</div>
-                      <div className="font-black text-base text-rose-600 mt-0.5">
+                    <div className="min-w-0">
+                      <div className="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase truncate">{t.transportCost}</div>
+                      <div className="font-black text-sm sm:text-base text-rose-600 mt-0.5 truncate">
                         -₹{result.transportCost.toLocaleString('en-IN')}
                       </div>
-                      <div className="text-[10px] text-stone-500 font-medium">
+                      <div className="text-[9px] sm:text-[10px] text-stone-500 font-medium truncate">
                         ₹{result.market.baseTransportFixed} + km
                       </div>
                     </div>
 
-                    <div>
-                      <div className="text-[10px] text-stone-500 font-bold uppercase">{t.commissionFee}</div>
-                      <div className="font-black text-base text-[#C1622D] mt-0.5">
+                    <div className="min-w-0">
+                      <div className="text-[9px] sm:text-[10px] text-stone-500 font-bold uppercase truncate">{t.commissionFee}</div>
+                      <div className="font-black text-sm sm:text-base text-[#C1622D] mt-0.5 truncate">
                         -₹{(result.commissionFee + result.handlingCost).toLocaleString('en-IN')}
                       </div>
-                      <div className="text-[10px] text-stone-500 font-medium">
+                      <div className="text-[9px] sm:text-[10px] text-stone-500 font-medium truncate">
                         {result.market.fixedMarketFeePercent}% fee
                       </div>
                     </div>

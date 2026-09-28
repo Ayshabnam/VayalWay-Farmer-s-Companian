@@ -132,22 +132,20 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // 2. Active Tab
   const [activeTab, setActiveTab] = useState<NavTab>('home');
 
-  // 3. Comparison Inputs
+  // 3. Comparison Inputs & Profile Location Sync
   const [selectedCropId, setSelectedCropId] = useState<string>('tomato');
   const [quantityKg, setQuantityKg] = useState<number>(500);
-  const [location, setLocation] = useState<string>('Shrirampur, Ahmednagar');
-  const [isLocating, setIsLocating] = useState<boolean>(false);
 
-  // 4. Sorting & Detail selection
-  const [sortMode, setSortMode] = useState<SortMode>('net_return');
-  const [selectedMarketDetail, setSelectedMarketDetail] = useState<CalculatedMarketResult | null>(null);
-
-  // 5. Profile & Storage
+  // 4. Profile & Storage (declared first so location can initialize from profile if available)
   const [profile, setProfile] = useState<FarmerProfile>(() => {
     const saved = localStorage.getItem('vayalway_profile') || localStorage.getItem('kisanrate_profile');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (parsed.location && parsed.location.includes('Shrirampur')) {
+          parsed.location = '';
+        }
+        return parsed;
       } catch {
         // ignore
       }
@@ -155,13 +153,54 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return INITIAL_PROFILE;
   });
 
+  const [location, setLocationState] = useState<string>(() => {
+    // 1. Check saved location
+    const saved = localStorage.getItem('vayalway_location') || localStorage.getItem('kisanrate_location');
+    if (saved && !saved.includes('Shrirampur')) return saved;
+    // 2. Check saved profile location
+    const savedProfile = localStorage.getItem('vayalway_profile') || localStorage.getItem('kisanrate_profile');
+    if (savedProfile) {
+      try {
+        const parsed = JSON.parse(savedProfile);
+        if (parsed.location && !parsed.location.includes('Shrirampur')) {
+          return parsed.location;
+        }
+      } catch {
+        // ignore
+      }
+    }
+    return INITIAL_PROFILE.location || '';
+  });
+
+  const setLocation = (loc: string) => {
+    setLocationState(loc);
+    localStorage.setItem('vayalway_location', loc);
+    // Keep profile in sync so profile's location reflects current location
+    setProfile(prev => {
+      const next = { ...prev, location: loc };
+      localStorage.setItem('vayalway_profile', JSON.stringify(next));
+      return next;
+    });
+  };
+
   const updateProfile = (updated: Partial<FarmerProfile>) => {
     setProfile(prev => {
       const next = { ...prev, ...updated };
       localStorage.setItem('vayalway_profile', JSON.stringify(next));
       return next;
     });
+    // When profile location is entered/updated, immediately update location state & storage
+    if (updated.location !== undefined) {
+      setLocationState(updated.location);
+      localStorage.setItem('vayalway_location', updated.location);
+    }
   };
+
+  const [isLocating, setIsLocating] = useState<boolean>(false);
+
+  // 5. Sorting & Detail selection
+  const [sortMode, setSortMode] = useState<SortMode>('net_return');
+  const [selectedMarketDetail, setSelectedMarketDetail] = useState<CalculatedMarketResult | null>(null);
 
   // 6. Sales History
   const [salesHistory, setSalesHistory] = useState<SaleRecord[]>(() => {
@@ -507,9 +546,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       setSelectedCropId('chilli');
     }
 
-    // 3. Location phrases
-    if (text.includes('shrirampur') || text.includes('ahmednagar') || text.includes('nashik') || text.includes('lasalgaon') || text.includes('pune') || text.includes('mumbai') || text.includes('kolar') || text.includes('guntur')) {
+    // 3. Location phrases & field-specific handling
+    if (targetField === 'location') {
       const match = COMMON_LOCATIONS.find(loc => loc.toLowerCase().includes(text.trim()));
+      if (match) {
+        setLocation(match);
+      } else if (rawText.trim().length > 1) {
+        // Format user-spoken location properly with title case
+        const formatted = rawText.trim().replace(/\b\w/g, l => l.toUpperCase());
+        setLocation(formatted);
+      }
+    } else {
+      const match = COMMON_LOCATIONS.find(loc => text.includes(loc.split(',')[0].toLowerCase()));
       if (match) {
         setLocation(match);
       }

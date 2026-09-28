@@ -31,9 +31,9 @@ const AppContent: React.FC = () => {
         {/* Desktop Sidebar */}
         <Sidebar />
 
-        {/* Main Content Area */}
-        <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8">
-          <div className="max-w-4xl mx-auto">
+        {/* Main Content Area - Optimized for Mobile, Tablet, Laptop & Desktop */}
+        <main className="flex-1 min-w-0 px-3 py-4 sm:px-5 sm:py-6 md:px-6 md:py-6 lg:px-8 lg:py-8 pb-28 md:pb-12">
+          <div className="max-w-5xl mx-auto w-full">
             {activeTab === 'home' && <HomeView />}
             {activeTab === 'compare' && <ComparePricesView />}
             {activeTab === 'forecast' && <ForecastView />}

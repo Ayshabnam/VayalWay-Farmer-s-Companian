@@ -15,9 +15,9 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 lg:w-72 bg-white/90 backdrop-blur-md border-r border-[#D2691E]/15 min-h-[calc(100vh-64px)] p-4 shrink-0 shadow-warm-sm">
+    <aside className="hidden md:flex flex-col w-56 lg:w-64 xl:w-72 bg-white/90 backdrop-blur-md border-r border-[#D2691E]/15 min-h-[calc(100vh-64px)] p-3 lg:p-4 shrink-0 shadow-warm-sm">
       {/* Quick Navigation Menu */}
-      <div className="space-y-2 flex-1">
+      <div className="space-y-1.5 lg:space-y-2 flex-1">
         <div className="px-3 py-1.5 text-[11px] font-extrabold text-[#D2691E] uppercase tracking-wider">
           Main Menu
         </div>
@@ -29,32 +29,32 @@ export const Sidebar: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`w-full min-h-[48px] flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left transition-all group card-3d ${
+              className={`w-full min-h-[48px] flex items-center gap-2.5 lg:gap-3 px-3 py-2.5 lg:px-3.5 lg:py-3 rounded-2xl text-left transition-all group card-3d ${
                 isActive
                   ? 'bg-gradient-to-r from-[#1F5C3F] to-[#1F5C3F] text-white font-black shadow-warm-md'
                   : 'text-[#26201A] hover:bg-[#FBF6EE] hover:text-[#1F5C3F] font-bold'
               }`}
             >
               <div
-                className={`p-2 rounded-xl transition-colors ${
+                className={`p-2 rounded-xl transition-colors shrink-0 ${
                   isActive
                     ? 'bg-white/20 text-[#F5A623]'
                     : 'bg-[#FBF6EE] text-[#1F5C3F] group-hover:bg-[#F5A623]/20 group-hover:text-[#D2691E]'
                 }`}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4 lg:w-5 lg:h-5" />
               </div>
-              <div className="flex-1">
-                <div className="text-sm tracking-tight flex items-center gap-1.5">
-                  <span>{tab.label}</span>
+              <div className="flex-1 min-w-0">
+                <div className="text-xs lg:text-sm tracking-tight flex items-center gap-1.5">
+                  <span className="truncate">{tab.label}</span>
                   {tab.id === 'forecast' && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#2E9CAB]/20 text-[#2E9CAB] font-extrabold uppercase">
+                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-[#2E9CAB]/20 text-[#2E9CAB] font-extrabold uppercase shrink-0">
                       AI
                     </span>
                   )}
                 </div>
                 <div
-                  className={`text-[11px] truncate font-medium ${
+                  className={`text-[10px] lg:text-[11px] truncate font-medium ${
                     isActive ? 'text-white/80' : 'text-[#26201A]/60'
                   }`}
                 >

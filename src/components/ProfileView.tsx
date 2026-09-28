@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { Language } from '../types';
 import {
@@ -32,6 +32,14 @@ export const ProfileView: React.FC = () => {
   const [phone, setPhone] = useState(profile.phone || '');
   const [saveSuccess, setSaveSuccess] = useState(false);
 
+  // Sync state whenever profile updates
+  useEffect(() => {
+    setName(profile.name);
+    setLocation(profile.location);
+    setFarmSize(profile.farmSize);
+    setPhone(profile.phone || '');
+  }, [profile]);
+
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     updateProfile({
@@ -62,7 +70,7 @@ export const ProfileView: React.FC = () => {
               </h2>
               <p className="text-emerald-100 text-xs sm:text-sm flex items-center gap-1.5 mt-0.5 font-medium">
                 <MapPin className="w-4 h-4 text-[#F5A623]" />
-                {profile.location} • {profile.farmSize}
+                {profile.location ? `${profile.location} • ` : 'Location not set • '}{profile.farmSize}
               </p>
             </div>
           </div>
@@ -105,9 +113,11 @@ export const ProfileView: React.FC = () => {
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
+                placeholder="e.g. Nashik, Maharashtra or Pune"
                 className="w-full min-h-[44px] px-3.5 py-2.5 rounded-2xl border border-amber-200/80 bg-white text-sm font-semibold text-[#2E2118] focus:outline-none focus:ring-2 focus:ring-[#C1622D]"
                 required
               />
+              <span className="text-[11px] text-stone-500 font-medium block mt-1">Used across the app to calculate mandi distance and net profits.</span>
             </div>
             <div>
               <label className="block text-xs font-bold text-[#2E2118] mb-1">{t.farmSize}</label>

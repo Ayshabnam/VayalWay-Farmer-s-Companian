@@ -2,7 +2,7 @@ import { CropData, FarmerProfile, SaleRecord, NotificationItem } from '../types'
 
 export const INITIAL_PROFILE: FarmerProfile = {
   name: 'Ramesh Patel',
-  location: 'Shrirampur, Ahmednagar',
+  location: '',
   state: 'Maharashtra',
   farmSize: '4.5 Acres',
   primaryCropsGrown: ['Tomato', 'Onion', 'Wheat', 'Sugarcane'],
@@ -11,14 +11,16 @@ export const INITIAL_PROFILE: FarmerProfile = {
 };
 
 export const COMMON_LOCATIONS = [
-  'Shrirampur, Ahmednagar',
   'Nashik Mandi Belt, Maharashtra',
+  'Pune APMC Market Yard, Maharashtra',
+  'Ahmednagar Mandi, Maharashtra',
   'Kolar Tomato Market, Karnataka',
+  'Guntur Mirchi Yard, Andhra Pradesh',
   'Mandsaur Mandi, Madhya Pradesh',
   'Vashi APMC, Navi Mumbai',
-  'Guntur Mirchi Yard, Andhra Pradesh',
   'Khanna Grain Market, Punjab',
-  'Burdwan Rice Belt, West Bengal'
+  'Burdwan Rice Belt, West Bengal',
+  'Palakkad Agricultural Belt, Kerala'
 ];
 
 export const MOCK_CROPS: CropData[] = [

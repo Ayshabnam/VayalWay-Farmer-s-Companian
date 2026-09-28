@@ -83,7 +83,7 @@ export const ForecastView: React.FC = () => {
   const isNetPositive = financialDiff > 0;
 
   return (
-    <div className="space-y-6 pb-12 max-w-6xl mx-auto">
+    <div className="space-y-6 pb-28 md:pb-12 max-w-6xl mx-auto">
       {/* 1. Header with Crop Selector */}
       <div className="glass-panel rounded-2xl p-5 shadow-warm-md border border-white/60">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -347,12 +347,12 @@ export const ForecastView: React.FC = () => {
             </p>
           </div>
 
-          {/* Horizon Toggle */}
+          {/* Horizon Toggle - 44px touch targets */}
           <div className="flex items-center gap-1 bg-[#FBF6EE] p-1 rounded-xl border border-[#2E9CAB]/20 shadow-inner">
             <button
               type="button"
               onClick={() => setForecastHorizon(7)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all min-h-[36px] ${
+              className={`px-3 py-2 rounded-lg text-xs font-bold transition-all min-h-[44px] ${
                 forecastHorizon === 7
                   ? 'bg-gradient-to-r from-[#1F5C3F] to-[#2E9CAB] text-white shadow-sm'
                   : 'text-[#26201A]/70 hover:text-[#26201A]'
@@ -363,7 +363,7 @@ export const ForecastView: React.FC = () => {
             <button
               type="button"
               onClick={() => setForecastHorizon(14)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all min-h-[36px] ${
+              className={`px-3 py-2 rounded-lg text-xs font-bold transition-all min-h-[44px] ${
                 forecastHorizon === 14
                   ? 'bg-gradient-to-r from-[#1F5C3F] to-[#2E9CAB] text-white shadow-sm'
                   : 'text-[#26201A]/70 hover:text-[#26201A]'
@@ -374,20 +374,25 @@ export const ForecastView: React.FC = () => {
           </div>
         </div>
 
-        {/* Legend */}
-        <div className="flex flex-wrap items-center gap-5 text-xs font-medium text-[#26201A]/70 mb-3 pt-2 border-t border-[#D2691E]/10">
-          <div className="flex items-center gap-2">
-            <span className="w-3.5 h-1 bg-[#26201A]/40 rounded-full" />
-            <span>Past Mandi History</span>
+        {/* Legend & Mobile Swipe Hint */}
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-medium text-[#26201A]/70 mb-3 pt-2 border-t border-[#D2691E]/10">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-5">
+            <div className="flex items-center gap-2">
+              <span className="w-3.5 h-1 bg-[#26201A]/40 rounded-full" />
+              <span>Past Mandi History</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-3.5 h-1.5 bg-[#2E9CAB] rounded-full shadow-teal-glow" />
+              <span className="font-bold text-[#2E9CAB]">Projected Trend</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#F5A623]" />
+              <span>Today (₹{currentForecast.currentPrice}/kg)</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-3.5 h-1.5 bg-[#2E9CAB] rounded-full shadow-teal-glow" />
-            <span className="font-bold text-[#2E9CAB]">Projected Trend</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#F5A623]" />
-            <span>Today (₹{currentForecast.currentPrice}/kg)</span>
-          </div>
+          <span className="text-[11px] text-[#2E9CAB] font-semibold sm:hidden flex items-center gap-1">
+            👉 Swipe to view all days
+          </span>
         </div>
 
         {/* SVG Chart Container */}
@@ -585,7 +590,7 @@ export const ForecastView: React.FC = () => {
           Day-by-Day Price Projection Matrix
         </h3>
         
-        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2.5 sm:gap-3">
           {displayedForecastDays.map((day) => {
             const isUp = day.changeFromCurrent > 0;
             const isFlat = day.changeFromCurrent === 0;

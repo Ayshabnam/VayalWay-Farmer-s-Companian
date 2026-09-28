@@ -92,7 +92,7 @@ export const HomeView: React.FC = () => {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/35 backdrop-blur-md border border-[#F5A623]/40 text-[#F5A623] text-xs font-black shadow-sm">
               <span>🌾 Namaste, {profile.name}</span>
               <span className="text-white/60">•</span>
-              <span className="text-emerald-100 font-medium">{location.split(',')[0]}</span>
+              <span className="text-emerald-100 font-medium">{location ? location.split(',')[0] : 'Choose Location'}</span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white leading-tight">

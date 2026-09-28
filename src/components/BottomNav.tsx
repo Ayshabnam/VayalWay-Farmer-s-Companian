@@ -40,7 +40,7 @@ export const BottomNav: React.FC = () => {
               >
                 <Icon className={`w-4 h-4 ${isActive ? 'stroke-[2.5]' : 'stroke-2'}`} />
               </div>
-              <span className="text-[10px] tracking-tight truncate max-w-[62px] text-center">{tab.label}</span>
+              <span className="text-[9px] sm:text-[10px] tracking-tight truncate max-w-full text-center px-0.5">{tab.label}</span>
               {isActive && (
                 <div className="w-1.5 h-1.5 rounded-full bg-[#1F5C3F] mt-0.5"></div>
               )}
