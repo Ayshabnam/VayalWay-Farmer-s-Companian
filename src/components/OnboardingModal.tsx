@@ -25,8 +25,8 @@ export const OnboardingModal: React.FC = () => {
   if (!showOnboarding) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#2E2118]/70 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-[#FFFDF9] rounded-[24px] max-w-lg w-full shadow-warm-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-[#C1622D]/20">
+    <div className="fixed inset-0 z-50 bg-[#2E2118]/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-[#FFFDF9] rounded-[24px] max-w-lg w-full max-h-[90vh] overflow-y-auto my-auto shadow-warm-lg animate-in fade-in zoom-in-95 duration-200 border border-[#C1622D]/20 overscroll-contain">
         {/* Banner with Farmland Hills / Sun Golden-Hour SVG and Terracotta Gradient */}
         <div className="bg-gradient-to-br from-[#2D4F26] via-[#4A7C3F] to-[#C1622D] text-white p-6 sm:p-7 relative overflow-hidden text-center">
           {/* SVG Farmland Rice Paddy & Golden Hour Sun Motif */}
